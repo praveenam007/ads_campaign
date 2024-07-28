@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/campaign")
@@ -19,12 +20,12 @@ public class CampaignController {
         return campaignRepo.findAll();
     }
 
-    @PostMapping("campaign/add")
+    @PostMapping("add")
     public CampaignEntity addCampaign(@RequestBody CampaignEntity campaign) {
         return campaignRepo.save(campaign);
     }
 
-    @PutMapping("campaign/edit/{id}")
+    @PutMapping("/edit/{id}")
     public CampaignEntity editCampaign(@PathVariable Long id, @RequestBody CampaignEntity updatedCampaign) {
         CampaignEntity campaign = campaignRepo.findById(id).orElseThrow();
         campaign.setCampaignName(updatedCampaign.getCampaignName());
@@ -32,7 +33,12 @@ public class CampaignController {
         return campaignRepo.save(campaign);
     }
 
-    @DeleteMapping("campaign/delete/{id}")
+    @GetMapping("/{id}")
+    public Optional<CampaignEntity> campaignEntityById(@PathVariable Long id){
+        return campaignRepo.findById(id);
+    }
+
+    @DeleteMapping("/delete/{id}")
     public void deleteCampaign(@PathVariable Long id) {
         campaignRepo.deleteById(id);
     }

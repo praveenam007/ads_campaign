@@ -20,6 +20,11 @@ public class OrganisationController {
         return organisationRepo.save(organisation);
 
     }
+    @GetMapping("/{id}")
+    public OrganisationEntity getOrganisationById(@PathVariable Long id){
+        return organisationRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("Organisation not found"));
+    }
+
     @DeleteMapping("/delete/{id}")
     public void deleteOrganisation(@PathVariable Long id) {
         organisationRepo.deleteById(id);
